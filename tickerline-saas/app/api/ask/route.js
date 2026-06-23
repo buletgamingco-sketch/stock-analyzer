@@ -8,10 +8,6 @@ export async function POST(req) {
   const uid = await getSessionUserId();
   if (!uid) return NextResponse.json({ error: 'Please sign in.' }, { status: 401 });
 
-  const user = await getUserById(uid);
-  if (!user || user.sub_status !== 'active')
-    return NextResponse.json({ error: 'subscribe', message: 'An active subscription is required.' }, { status: 402 });
-
   const used = await getUsageCents(uid);
   const cap = monthlyCapCents();
   if (used >= cap)
