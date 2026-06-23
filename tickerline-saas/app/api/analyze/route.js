@@ -9,10 +9,6 @@ export async function POST(req) {
   const uid = await getSessionUserId();
   if (!uid) return NextResponse.json({ error: 'Please sign in.' }, { status: 401 });
 
-  // 2) Must have an active subscription
-  const user = await getUserById(uid);
-  if (!user || user.sub_status !== 'active')
-    return NextResponse.json({ error: 'subscribe', message: 'An active subscription is required.' }, { status: 402 });
 
   // 3) Must be under the monthly usage cap
   const used = await getUsageCents(uid);
